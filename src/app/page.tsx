@@ -135,7 +135,7 @@ export default function ChatPage() {
   };
   
   const ClausesContent = () => (
-    <ScrollArea className="h-[calc(100vh-16rem)] md:h-[calc(100vh-16rem)]">
+    <ScrollArea className="h-full">
       {isClausesLoading ? (
         Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className="flex items-center gap-2 p-2 rounded-md animate-pulse">
@@ -172,45 +172,47 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-muted/30">
       <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6">
-        <div className="flex items-center gap-2 md:w-1/3">
-           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="md:hidden">
-                <FileText className="h-5 w-5" />
-                <span className="sr-only">Relevant Clauses</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-              <SheetHeader className="mb-4">
-                <SheetTitle className="flex items-center gap-2 text-lg">
-                  <FileText className="h-5 w-5" />
-                  Relevant Clauses
-                </SheetTitle>
-              </SheetHeader>
-              <ClausesContent />
-            </SheetContent>
-          </Sheet>
-          <div className="hidden md:flex items-center gap-2">
-            <Logo className="h-8 w-8" />
-          </div>
+        <div className="flex items-center gap-2">
+          <Logo className="h-8 w-8" />
         </div>
-        <div className="flex justify-center w-1/3">
+        <div className="flex justify-center flex-1">
           <h1 className="text-lg font-semibold whitespace-nowrap">BCA Code Assist AI</h1>
         </div>
-        <div className="flex items-center justify-end gap-2 w-1/3">
+        <div className="flex items-center justify-end gap-2">
           <ThemeToggle />
         </div>
       </header>
+       <div className="md:hidden flex justify-center p-2 border-b bg-background">
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" className="w-full">
+              <FileText className="mr-2 h-4 w-4" />
+              Relevant Clauses
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[300px] sm:w-[400px] p-0 flex flex-col">
+            <SheetHeader className="p-4 border-b">
+              <SheetTitle className="flex items-center gap-2 text-lg">
+                <FileText className="h-5 w-5" />
+                Relevant Clauses
+              </SheetTitle>
+            </SheetHeader>
+            <div className="p-2 flex-1">
+              <ClausesContent />
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
       <main className="flex flex-1 gap-4 p-4 md:gap-8 md:p-6 overflow-hidden">
         <div className="w-[300px] flex-col gap-4 hidden md:flex">
-          <Card>
+          <Card className="flex flex-col h-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
                 <FileText className="h-5 w-5" />
                 Relevant Clauses
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-hidden">
               <ClausesContent />
             </CardContent>
           </Card>
@@ -218,7 +220,7 @@ export default function ChatPage() {
         <div className="flex flex-1 flex-col">
           <Card className="flex-1 flex flex-col overflow-hidden">
             <CardContent className="flex-1 p-0">
-              <ScrollArea className="h-[calc(100vh-14rem)]" ref={scrollAreaRef}>
+              <ScrollArea className="h-[calc(100vh-16rem)]" ref={scrollAreaRef}>
                 <div className="p-6 space-y-6">
                   {messages.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
@@ -294,3 +296,4 @@ export default function ChatPage() {
     </div>
   );
     
+
