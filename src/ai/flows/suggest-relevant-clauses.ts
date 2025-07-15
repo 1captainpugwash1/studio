@@ -43,10 +43,23 @@ const suggestRelevantClausesFlow = ai.defineFlow(
     name: 'suggestRelevantClausesFlow',
     inputSchema: SuggestRelevantClausesInputSchema,
     outputSchema: SuggestRelevantClausesOutputSchema,
-    retries: 3,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    let retries = 0;
+    const maxRetries = 3;
+    while (retries < maxRetries) {
+      try {
+        const {output} = await prompt(input);
+        return output!;
+      } catch (error: any) {
+        if (error.message.includes('503 Service Unavailable') && retries < maxRetries - 1) {
+          retries++;
+          await new Promise(resolve => setTimeout(resolve, 1000 * Math.pow(2, retries))); // Exponential backoff
+        } else {
+          throw error;
+        }
+      }
+    }
+    throw new Error('Failed to get a response from the AI after multiple retries.');
   }
 );
