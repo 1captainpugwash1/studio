@@ -29,6 +29,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { ChatMessage, type ChatMessageProps } from "@/components/chat-message";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Loader2, Sparkles, Send, Info, FileText } from "lucide-react";
+import { Logo } from "@/components/logo";
 
 const chatFormSchema = z.object({
   query: z.string().min(1, "Message cannot be empty."),
@@ -127,7 +128,7 @@ export default function ChatPage() {
     <div className="flex h-screen w-full flex-col bg-muted/30">
       <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-6 w-6 text-primary" />
+          <Logo className="h-8 w-8" />
           <h1 className="text-lg font-semibold">BCA Code Assist AI</h1>
         </div>
         <ThemeToggle />
