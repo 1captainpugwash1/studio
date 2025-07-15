@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
@@ -16,6 +17,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -43,6 +51,7 @@ export default function ChatPage() {
   
   const [explanation, setExplanation] = useState<{title: string, content: string} | null>(null);
   const [isExplanationLoading, setIsExplanationLoading] = useState<string | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -65,6 +74,7 @@ export default function ChatPage() {
 
   const handleClauseClick = async (clause: string) => {
     setIsExplanationLoading(clause);
+    setIsSheetOpen(false); // Close sheet on mobile
     try {
       const result = await explainCodeClause({ codeClause: clause });
       setExplanation({ title: clause, content: result.explanation });
@@ -123,6 +133,41 @@ export default function ChatPage() {
       setIsClausesLoading(false);
     }
   };
+  
+  const ClausesContent = () => (
+    <ScrollArea className="h-[calc(100vh-16rem)] md:h-[calc(100vh-16rem)]">
+      {isClausesLoading ? (
+        Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="flex items-center gap-2 p-2 rounded-md animate-pulse">
+            <div className="h-4 w-4 bg-muted rounded-full"/>
+            <div className="h-4 w-3/4 bg-muted rounded-md"/>
+          </div>
+        ))
+      ) : suggestedClauses.length > 0 ? (
+        <ul className="space-y-1">
+          {suggestedClauses.map((clause) => (
+            <li key={clause}>
+              <Button
+                variant="ghost"
+                className="w-full justify-start text-left h-auto"
+                onClick={() => handleClauseClick(clause)}
+                disabled={!!isExplanationLoading}
+              >
+                {isExplanationLoading === clause ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Info className="mr-2 h-4 w-4" />
+                )}
+                <span className="flex-1">{clause}</span>
+              </Button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-sm text-muted-foreground p-2">Relevant clauses will appear here after you ask a question.</p>
+      )}
+    </ScrollArea>
+  );
 
   return (
     <div className="flex h-screen w-full flex-col bg-muted/30">
@@ -131,7 +176,26 @@ export default function ChatPage() {
           <Logo className="h-8 w-8" />
           <h1 className="text-lg font-semibold">BCA Code Assist AI</h1>
         </div>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="md:hidden">
+                <FileText className="h-5 w-5" />
+                <span className="sr-only">Relevant Clauses</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="flex items-center gap-2 text-lg">
+                  <FileText className="h-5 w-5" />
+                  Relevant Clauses
+                </SheetTitle>
+              </SheetHeader>
+              <ClausesContent />
+            </SheetContent>
+          </Sheet>
+          <ThemeToggle />
+        </div>
       </header>
       <main className="flex flex-1 gap-4 p-4 md:gap-8 md:p-6 overflow-hidden">
         <div className="w-[300px] flex-col gap-4 hidden md:flex">
@@ -143,38 +207,7 @@ export default function ChatPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="h-[calc(100vh-16rem)]">
-              {isClausesLoading ? (
-                  Array.from({ length: 5 }).map((_, i) => (
-                    <div key={i} className="flex items-center gap-2 p-2 rounded-md animate-pulse">
-                      <div className="h-4 w-4 bg-muted rounded-full"/>
-                      <div className="h-4 w-3/4 bg-muted rounded-md"/>
-                    </div>
-                  ))
-                ) : suggestedClauses.length > 0 ? (
-                  <ul className="space-y-1">
-                    {suggestedClauses.map((clause) => (
-                      <li key={clause}>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start text-left h-auto"
-                          onClick={() => handleClauseClick(clause)}
-                          disabled={!!isExplanationLoading}
-                        >
-                          {isExplanationLoading === clause ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          ) : (
-                            <Info className="mr-2 h-4 w-4" />
-                          )}
-                          <span className="flex-1">{clause}</span>
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-sm text-muted-foreground p-2">Relevant clauses will appear here after you ask a question.</p>
-                )}
-              </ScrollArea>
+              <ClausesContent />
             </CardContent>
           </Card>
         </div>
@@ -256,4 +289,5 @@ export default function ChatPage() {
       </AlertDialog>
     </div>
   );
-}
+
+    
