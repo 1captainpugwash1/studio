@@ -172,11 +172,7 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-muted/30">
       <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6">
-        <div className="flex items-center gap-2">
-          <Logo className="h-8 w-8" />
-          <h1 className="text-lg font-semibold">BCA Code Assist AI</h1>
-        </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 md:w-1/3">
            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="md:hidden">
@@ -194,6 +190,14 @@ export default function ChatPage() {
               <ClausesContent />
             </SheetContent>
           </Sheet>
+          <div className="hidden md:flex items-center gap-2">
+            <Logo className="h-8 w-8" />
+          </div>
+        </div>
+        <div className="flex justify-center w-1/3">
+          <h1 className="text-lg font-semibold whitespace-nowrap">BCA Code Assist AI</h1>
+        </div>
+        <div className="flex items-center justify-end gap-2 w-1/3">
           <ThemeToggle />
         </div>
       </header>
