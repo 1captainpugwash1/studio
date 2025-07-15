@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useRef, useEffect, type FormEvent, use } from "react";
+import { useState, useRef, useEffect, type FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -90,7 +90,7 @@ export default function ChatPage() {
     }
   };
 
-  const handleFormSubmit = async (values: z.infer<typeof chatFormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof chatFormSchema>) => {
     const userMessage: ChatMessageProps = { role: "user", content: values.query };
     setMessages((prev) => [...prev, userMessage]);
     setIsAiLoading(true);
@@ -132,10 +132,6 @@ export default function ChatPage() {
       setIsAiLoading(false);
       setIsClausesLoading(false);
     }
-  };
-  
-  const onSubmit = (values: z.infer<typeof chatFormSchema>) => {
-    use(handleFormSubmit(values));
   };
   
   const ClausesContent = () => (
