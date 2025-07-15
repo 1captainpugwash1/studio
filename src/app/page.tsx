@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useRef, useEffect, type FormEvent } from "react";
+import { useState, useRef, useEffect, type FormEvent, use } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -238,7 +238,10 @@ export default function ChatPage() {
             <div className="border-t p-4 bg-background">
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={(evt) => {
+                    evt.preventDefault();
+                    form.handleSubmit(async (data) => use(onSubmit(data)))();
+                  }}
                   className="relative flex items-center gap-2"
                 >
                   <FormField
@@ -255,7 +258,7 @@ export default function ChatPage() {
                             onKeyDown={(e) => {
                               if (e.key === "Enter" && !e.shiftKey && !isSubmitting) {
                                 e.preventDefault();
-                                form.handleSubmit(onSubmit)();
+                                form.handleSubmit(async (data) => use(onSubmit(data)))();
                               }
                             }}
                           />
@@ -289,5 +292,4 @@ export default function ChatPage() {
       </AlertDialog>
     </div>
   );
-
     
