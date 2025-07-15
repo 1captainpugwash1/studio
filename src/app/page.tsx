@@ -176,7 +176,7 @@ export default function ChatPage() {
           <Logo className="h-8 w-8" />
         </div>
         <div className="flex justify-center flex-1">
-          <h1 className="text-lg font-semibold whitespace-nowrap">BCA Code Assist AI</h1>
+          <h1 className="text-lg font-semibold whitespace-nowrap">Building Code Australia AI Guru</h1>
         </div>
         <div className="flex items-center justify-end gap-2">
           <ThemeToggle />
@@ -296,4 +296,5 @@ export default function ChatPage() {
     </div>
   );
     
+
 

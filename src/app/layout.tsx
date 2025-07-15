@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'BCA Code Assist AI',
+  title: 'Building Code Australia AI Guru',
   description: 'AI-powered assistant for the Building Code of Australia',
 };
 
