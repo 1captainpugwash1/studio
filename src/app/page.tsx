@@ -90,7 +90,7 @@ export default function ChatPage() {
     }
   };
 
-  const onSubmit = async (values: z.infer<typeof chatFormSchema>) => {
+  const handleFormSubmit = async (values: z.infer<typeof chatFormSchema>) => {
     const userMessage: ChatMessageProps = { role: "user", content: values.query };
     setMessages((prev) => [...prev, userMessage]);
     setIsAiLoading(true);
@@ -132,6 +132,10 @@ export default function ChatPage() {
       setIsAiLoading(false);
       setIsClausesLoading(false);
     }
+  };
+  
+  const onSubmit = (values: z.infer<typeof chatFormSchema>) => {
+    use(handleFormSubmit(values));
   };
   
   const ClausesContent = () => (
@@ -238,10 +242,7 @@ export default function ChatPage() {
             <div className="border-t p-4 bg-background">
               <Form {...form}>
                 <form
-                  onSubmit={(evt) => {
-                    evt.preventDefault();
-                    form.handleSubmit(async (data) => use(onSubmit(data)))();
-                  }}
+                  onSubmit={form.handleSubmit(onSubmit)}
                   className="relative flex items-center gap-2"
                 >
                   <FormField
@@ -258,7 +259,7 @@ export default function ChatPage() {
                             onKeyDown={(e) => {
                               if (e.key === "Enter" && !e.shiftKey && !isSubmitting) {
                                 e.preventDefault();
-                                form.handleSubmit(async (data) => use(onSubmit(data)))();
+                                form.handleSubmit(onSubmit)();
                               }
                             }}
                           />
