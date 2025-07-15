@@ -4,31 +4,16 @@ export function Logo({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 100"
+      viewBox="0 0 81 83"
       className={cn("h-8 w-8", className)}
       aria-hidden="true"
     >
-      <defs>
-        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: "hsl(var(--primary))", stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: "hsl(var(--accent))", stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
       <g>
-        <path
-          d="M20,0 h60 a20,20 0 0 1 20,20 v60 a20,20 0 0 1 -20,20 h-60 a20,20 0 0 1 -20,-20 v-60 a20,20 0 0 1 20,-20 z"
-          fill="url(#logoGradient)"
-        />
-        <path
-          fill="hsl(var(--primary-foreground))"
-          d="M32.5,25 h20 a12.5,12.5 0 0 1 0,25 h-20 a12.5,12.5 0 0 1 0,-25 z
-             M32.5,50 h25 a12.5,12.5 0 0 1 0,25 h-25 a12.5,12.5 0 0 1 0,-25 z"
-        />
-        <path
-          fill="hsl(var(--primary-foreground))"
-          opacity="0.7"
-          d="M32.5,25 a12.5,12.5 0 0 1 12.5,-12.5 v50 a12.5,12.5 0 0 1 -12.5,-12.5 v-25 z"
-        />
+        <path fill="hsl(var(--primary))" d="M36.1 27.2L36.1 83L10.7 83L0 83L21.4 65.1L21.4 46.1L36.1 27.2Z" />
+        <path fill="hsl(var(--primary))" d="M60.4 20.3L60.4 83L80.1 83L60.4 65.9L60.4 20.3Z" />
+        <path fill="hsl(var(--accent))" d="M38.5 24L38.5 61.9L24.1 65.1L24.1 48.4L38.5 24Z" />
+        <path fill="hsl(var(--primary))" d="M41 0L41 83L58 83L58 24.9L41 0Z" />
+        <path fill="hsl(var(--accent))" d="M43.4 29.5L43.4 61.9L55.6 61.9L55.6 34.1L43.4 29.5Z" />
       </g>
     </svg>
   );
