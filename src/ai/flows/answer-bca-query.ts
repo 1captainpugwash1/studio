@@ -41,6 +41,7 @@ const answerBcaQueryFlow = ai.defineFlow(
     name: 'answerBcaQueryFlow',
     inputSchema: AnswerBcaQueryInputSchema,
     outputSchema: AnswerBcaQueryOutputSchema,
+    retries: 3,
   },
   async input => {
     const {output} = await answerBcaQueryPrompt(input);

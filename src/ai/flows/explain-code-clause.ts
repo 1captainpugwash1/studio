@@ -44,6 +44,7 @@ const explainCodeClauseFlow = ai.defineFlow(
     name: 'explainCodeClauseFlow',
     inputSchema: ExplainCodeClauseInputSchema,
     outputSchema: ExplainCodeClauseOutputSchema,
+    retries: 3,
   },
   async input => {
     const {output} = await prompt(input);

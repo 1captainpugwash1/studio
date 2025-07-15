@@ -1,4 +1,4 @@
-// 'use server';
+'use server';
 /**
  * @fileOverview An AI agent that suggests relevant clauses in the Building Code of Australia based on a user's query.
  *
@@ -6,8 +6,6 @@
  * - SuggestRelevantClausesInput - The input type for the suggestRelevantClauses function.
  * - SuggestRelevantClausesOutput - The return type for the suggestRelevantClauses function.
  */
-
-'use server';
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
@@ -45,6 +43,7 @@ const suggestRelevantClausesFlow = ai.defineFlow(
     name: 'suggestRelevantClausesFlow',
     inputSchema: SuggestRelevantClausesInputSchema,
     outputSchema: SuggestRelevantClausesOutputSchema,
+    retries: 3,
   },
   async input => {
     const {output} = await prompt(input);
